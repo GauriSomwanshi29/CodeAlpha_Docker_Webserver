@@ -23,7 +23,7 @@
 
 It combines an interactive website with practical DevOps implementation, including container lifecycle management, resource monitoring, and automated health checks.
 
-🌐 **Explore the Website:** [NEXUS | Docker Infrastructure](http://localhost:8080)
+🌐 **Explore the Website:** [NEXUS | Docker Infrastructure](https://dockernove.netlify.app/)
 
 *Note: The localhost link works only when the Docker container is running on your machine.*
 
