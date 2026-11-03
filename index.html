@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOCKER NOVA | Docker Infrastructure</title>
+  <meta name="description" content="NEXUS — A Docker-based web server deployment. Containerized Nginx infrastructure serving a hand-built website on localhost:8080. CodeAlpha DevOps Internship Project." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-testid="nexus-site">
+
+  <!-- ================= PRELOADER ================= -->
+  <div class="preloader" id="preloader" data-testid="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <div class="preloader__logo">
+        <svg viewBox="0 0 48 48" width="52" height="52" fill="none" aria-hidden="true">
+          <path d="M24 3 42 13.5v21L24 45 6 34.5v-21L24 3Z" stroke="url(#plGrad)" stroke-width="1.6"/>
+          <path d="M16 31V17l16 14V17" stroke="url(#plGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs><linearGradient id="plGrad" x1="6" y1="6" x2="42" y2="42"><stop stop-color="#00E5FF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs>
+        </svg>
+      </div>
+      <div class="preloader__word" aria-hidden="true">DOCKER NOVA</div>
+      <div class="preloader__bar"><span id="preloaderBar"></span></div>
+      <div class="preloader__status" id="preloaderStatus">initializing container…</div>
+    </div>
+  </div>
+
+  <!-- ================= CUSTOM CURSOR ================= -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- ================= 3D PARTICLE BACKGROUND ================= -->
+  <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <!-- ================= NAV ================= -->
+  <header class="nav" id="nav" data-testid="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__brand" data-testid="nav-brand" aria-label="NEXUS home">
+        <svg viewBox="0 0 48 48" width="26" height="26" fill="none" aria-hidden="true">
+          <path d="M24 3 42 13.5v21L24 45 6 34.5v-21L24 3Z" stroke="url(#navGrad)" stroke-width="2"/>
+          <path d="M16 31V17l16 14V17" stroke="url(#navGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs><linearGradient id="navGrad" x1="6" y1="6" x2="42" y2="42"><stop stop-color="#00E5FF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs>
+        </svg>
+        <span>NEXUS</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#overview">Infrastructure</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#monitor">Monitor</a>
+        <a href="#stack">Stack</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#about">About</a>
+      </nav>
+      <a href="#workflow" class="btn btn--ghost btn--sm nav__cta" data-magnetic data-testid="nav-cta">
+        <i data-lucide="terminal"></i> Deployed on :8080
+      </a>
+      <button class="nav__toggle" id="navToggle" data-testid="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="hero" data-testid="hero-section">
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <div class="hero__eyebrow line-mask">
+            <span class="line-mask__inner"><span class="hero__eyebrow-text"><span class="pulse-dot"></span> CODEALPHA DEVOPS INTERNSHIP · DOCKER PROJECT · 2026</span></span>
+          </div>
+          <h1 class="hero__title" data-testid="hero-title">
+            <span class="line-mask"><span class="line-mask__inner">POWERING THE</span></span>
+            <span class="line-mask"><span class="line-mask__inner">FUTURE OF <em>CONTAINERIZED</em></span></span>
+            <span class="line-mask"><span class="line-mask__inner"><em>INFRASTRUCTURE</em><span class="hero__cursor-blink">_</span></span></span>
+          </h1>
+          <p class="hero__subtitle line-mask">
+            <span class="line-mask__inner">A production-style web server, containerized end-to-end — Nginx running inside an isolated Docker container, serving this very website on <code>localhost:8080</code>.</span>
+          </p>
+          <div class="hero__actions line-mask">
+            <span class="line-mask__inner hero__actions-row">
+              <a href="#overview" class="btn btn--primary" data-magnetic data-testid="hero-cta-explore">
+                <i data-lucide="scan-line"></i> Explore Infrastructure
+              </a>
+              <a href="#architecture" class="btn btn--ghost" data-magnetic data-testid="hero-cta-architecture">
+                <i data-lucide="git-branch"></i> View Architecture
+              </a>
+            </span>
+          </div>
+          <div class="hero__status line-mask">
+            <span class="line-mask__inner">
+              <div class="status-chip" data-testid="hero-status">
+                <span class="pulse-dot pulse-dot--live"></span>
+                <span class="status-chip__label">SYSTEM STATUS</span>
+                <span class="status-chip__value">DEMO ENVIRONMENT · SINGLE CONTAINER · HEALTHY</span>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="hero__visual" id="serverVizWrap" data-testid="hero-server-visual">
+          <div class="hero__visual-frame">
+            <canvas id="server-canvas" class="server-canvas" aria-label="Interactive 3D server infrastructure visualization"></canvas>
+            <div class="hero__hud">
+              <div class="hud-row"><span class="hud-key">NODE</span><span class="hud-val">nexus-core-01</span></div>
+              <div class="hud-row"><span class="hud-key">RUNTIME</span><span class="hud-val">docker engine</span></div>
+              <div class="hud-row"><span class="hud-key">EXPOSE</span><span class="hud-val">80 / 8080</span></div>
+              <div class="hud-row"><span class="hud-key">STATE</span><span class="hud-val hud-val--ok">● running</span></div>
+            </div>
+            <div class="hero__visual-glow" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- marquee -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <div class="marquee__group">
+            <span>DOCKER</span><i class="marquee-sep"></i><span>NGINX</span><i class="marquee-sep"></i><span>CONTAINERIZED</span><i class="marquee-sep"></i><span>LOCALHOST:8080</span><i class="marquee-sep"></i><span>DEVOPS</span><i class="marquee-sep"></i><span>ISOIMAGES</span><i class="marquee-sep"></i>
+          </div>
+          <div class="marquee__group">
+            <span>DOCKER</span><i class="marquee-sep"></i><span>NGINX</span><i class="marquee-sep"></i><span>CONTAINERIZED</span><i class="marquee-sep"></i><span>LOCALHOST:8080</span><i class="marquee-sep"></i><span>DEVOPS</span><i class="marquee-sep"></i><span>ISOIMAGES</span><i class="marquee-sep"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <span>scroll</span><span class="scroll-hint__line"></span>
+      </div>
+    </section>
+
+    <!-- ================= STATS ================= -->
+    <section class="stats" data-testid="stats-section">
+      <div class="container stats__grid">
+        <div class="stat reveal" data-testid="stat-containers">
+          <div class="stat__value"><span class="counter" data-target="1">0</span></div>
+          <div class="stat__label">Docker Container</div>
+          <div class="stat__note">project configuration</div>
+        </div>
+        <div class="stat reveal">
+          <div class="stat__value"><span class="counter" data-target="8080">0</span></div>
+          <div class="stat__label">Host Port</div>
+          <div class="stat__note">mapped to container :80</div>
+        </div>
+        <div class="stat reveal">
+          <div class="stat__value"><span class="counter" data-target="100" data-suffix="%">0</span></div>
+          <div class="stat__label">Static Assets</div>
+          <div class="stat__note">HTML · CSS · JS only</div>
+        </div>
+        <div class="stat reveal">
+          <div class="stat__value"><span class="counter" data-target="0">0</span></div>
+          <div class="stat__label">Runtime Dependencies</div>
+          <div class="stat__note">no backend, no database</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INFRASTRUCTURE OVERVIEW ================= -->
+    <section class="section" id="overview" data-testid="overview-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow"><span class="section-eyebrow__num">01</span> INFRASTRUCTURE OVERVIEW</div>
+          <h2 class="section-title">The deployment, <em>at a glance</em></h2>
+          <p class="section-sub">A dashboard view of the NEXUS deployment stack. Figures reflect the project's configuration — clearly labelled demonstration metrics, not live telemetry.</p>
+        </div>
+
+        <div class="bento" data-testid="overview-cards">
+          <article class="bento-card bento-card--wide tilt reveal" data-testid="card-container-status">
+            <div class="bento-card__head">
+              <span class="icon-chip"><i data-lucide="container"></i></span>
+              <span class="demo-badge" title="Demonstration metric">DEMO</span>
+            </div>
+            <h3 class="bento-card__title">Container Status</h3>
+            <p class="bento-card__value">Running<span class="value-suffix">· detached</span></p>
+            <p class="bento-card__desc">Single isolated container launched with <code>-d -p 8080:80</code>, restartable and reproducible on any Docker host.</p>
+            <div class="bento-card__meter"><span style="--w:100%"></span></div>
+          </article>
+
+          <article class="bento-card tilt reveal" data-testid="card-docker-image">
+            <div class="bento-card__head">
+              <span class="icon-chip"><i data-lucide="layers"></i></span>
+              <span class="demo-badge">DEMO</span>
+            </div>
+            <h3 class="bento-card__title">Docker Image</h3>
+            <p class="bento-card__value code">codealpha-webserver</p>
+            <p class="bento-card__desc">Custom image built from the official <code>nginx:latest</code> base with this website copied into the docroot.</p>
+          </article>
+
+          <article class="bento-card tilt reveal" data-testid="card-web-server">
+            <div class="bento-card__head">
+              <span class="icon-chip"><i data-lucide="server"></i></span>
+              <span class="demo-badge">DEMO</span>
+            </div>
+            <h3 class="bento-card__title">Web Server</h3>
+            <p class="bento-card__value">NGINX</p>
+            <p class="bento-card__desc">Battle-tested reverse proxy & static file server, serving content with minimal footprint inside the container.</p>
+          </article>
+
+          <article class="bento-card tilt reveal" data-testid="card-port-mapping">
+            <div class="bento-card__head">
+              <span class="icon-chip"><i data-lucide="plug-zap"></i></span>
+              <span class="demo-badge">DEMO</span>
+            </div>
+            <h3 class="bento-card__title">Port Mapping</h3>
+            <p class="bento-card__value code">8080 → 80</p>
+            <p class="bento-card__desc">Host port <code>8080</code> forwards straight to the container's exposed port <code>80</code>.</p>
+          </article>
+
+          <article class="bento-card bento-card--wide tilt reveal" data-testid="card-deployment-status">
+            <div class="bento-card__head">
+              <span class="icon-chip"><i data-lucide="rocket"></i></span>
+              <span class="demo-badge">DEMO</span>
+            </div>
+            <h3 class="bento-card__title">Deployment Status</h3>
+            <p class="bento-card__value">Deployed<span class="value-suffix">· localhost:8080</span></p>
+            <p class="bento-card__desc">Image built → container running → site reachable from the browser. Full workflow documented below.</p>
+            <div class="bento-card__steps">
+              <span class="step-dot done"></span><span class="step-dot done"></span><span class="step-dot done"></span><span class="step-dot"></span><span class="step-dot"></span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ARCHITECTURE ================= -->
+    <section class="section section--alt" id="architecture" data-testid="architecture-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow"><span class="section-eyebrow__num">02</span> DOCKER ARCHITECTURE</div>
+          <h2 class="section-title">Request flow, <em>visualized</em></h2>
+          <p class="section-sub">Follow a single request from the user's browser to the served page — each hop through the container boundary animated on scroll.</p>
+        </div>
+
+        <div class="arch reveal" data-testid="arch-diagram">
+          <div class="arch__lanes">
+            <div class="arch__lane-label">HOST MACHINE</div>
+            <div class="arch__lane-label arch__lane-label--container">DOCKER CONTAINER</div>
+          </div>
+
+          <div class="arch__flow" id="archFlow">
+            <div class="arch-node" data-arch-node>
+              <span class="arch-node__icon"><i data-lucide="user"></i></span>
+              <span class="arch-node__name">USER</span>
+              <span class="arch-node__sub">opens the site</span>
+            </div>
+            <div class="arch-conn"><svg viewBox="0 0 100 20" preserveAspectRatio="none"><path class="arch-line" d="M0 10 H100"/></svg><span class="arch-conn__label">requests</span></div>
+
+            <div class="arch-node" data-arch-node>
+              <span class="arch-node__icon"><i data-lucide="globe"></i></span>
+              <span class="arch-node__name">BROWSER</span>
+              <span class="arch-node__sub">client</span>
+            </div>
+            <div class="arch-conn"><svg viewBox="0 0 100 20" preserveAspectRatio="none"><path class="arch-line" d="M0 10 H100"/></svg><span class="arch-conn__label">http://localhost:8080</span></div>
+
+            <div class="arch-node" data-arch-node>
+              <span class="arch-node__icon"><i data-lucide="network"></i></span>
+              <span class="arch-node__name">LOCALHOST:8080</span>
+              <span class="arch-node__sub">host port</span>
+            </div>
+            <div class="arch-conn arch-conn--boundary"><svg viewBox="0 0 100 20" preserveAspectRatio="none"><path class="arch-line" d="M0 10 H100"/></svg><span class="arch-conn__label">port map -p 8080:80</span></div>
+
+            <div class="arch-node arch-node--container" data-arch-node>
+              <span class="arch-node__icon"><i data-lucide="container"></i></span>
+              <span class="arch-node__name">DOCKER CONTAINER</span>
+              <span class="arch-node__sub">my-webserver</span>
+            </div>
+            <div class="arch-conn"><svg viewBox="0 0 100 20" preserveAspectRatio="none"><path class="arch-line" d="M0 10 H100"/></svg><span class="arch-conn__label">serves</span></div>
+
+            <div class="arch-node arch-node--container" data-arch-node>
+              <span class="arch-node__icon"><i data-lucide="server"></i></span>
+              <span class="arch-node__name">NGINX SERVER</span>
+              <span class="arch-node__sub">:80 inside container</span>
+            </div>
+            <div class="arch-conn"><svg viewBox="0 0 100 20" preserveAspectRatio="none"><path class="arch-line" d="M0 10 H100"/></svg><span class="arch-conn__label">delivers</span></div>
+
+            <div class="arch-node arch-node--final" data-arch-node>
+              <span class="arch-node__icon"><i data-lucide="file-code-2"></i></span>
+              <span class="arch-node__name">HTML WEBSITE</span>
+              <span class="arch-node__sub">this page</span>
+            </div>
+          </div>
+
+          <p class="arch__note">Configured architecture of the project — one request path, one container, zero external services.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTAINER MONITOR ================= -->
+    <section class="section" id="monitor" data-testid="monitor-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow"><span class="section-eyebrow__num">03</span> CONTAINER MONITOR</div>
+          <h2 class="section-title">Inside <em>my-webserver</em></h2>
+          <p class="section-sub">The container's identity as configured by this project. This panel shows configured project details — it is not a live container monitoring feed.</p>
+        </div>
+
+        <div class="monitor reveal" data-testid="monitor-panel">
+          <div class="monitor__window">
+            <div class="monitor__bar">
+              <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+              <span class="monitor__title">nexus — container config</span>
+              <span class="monitor__tag">CONFIGURED · NOT LIVE TELEMETRY</span>
+            </div>
+            <div class="monitor__body">
+              <div class="monitor__row"><span class="monitor__key">CONTAINER NAME</span><span class="monitor__val" data-testid="monitor-container-name">my-webserver</span></div>
+              <div class="monitor__row"><span class="monitor__key">IMAGE</span><span class="monitor__val">codealpha-webserver</span></div>
+              <div class="monitor__row"><span class="monitor__key">CONTAINER PORT</span><span class="monitor__val">80</span></div>
+              <div class="monitor__row"><span class="monitor__key">HOST PORT</span><span class="monitor__val">8080</span></div>
+              <div class="monitor__row"><span class="monitor__key">TECHNOLOGY</span><span class="monitor__val">Docker + Nginx</span></div>
+            </div>
+          </div>
+
+          <div class="monitor__terminal">
+            <div class="monitor__bar">
+              <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+              <span class="monitor__title">commands.md</span>
+            </div>
+            <pre class="terminal" data-testid="monitor-terminal"><code><span class="cmt"># build the image</span>
+<span class="cmd">$</span> docker build -t codealpha-webserver .
+
+<span class="cmt"># run the container, detached</span>
+<span class="cmd">$</span> docker run -d --name my-webserver -p 8080:80 codealpha-webserver
+
+<span class="cmt"># verify it's alive</span>
+<span class="cmd">$</span> docker ps
+<span class="ok">CONTAINER ID  IMAGE                 PORTS                  NAMES</span>
+<span class="ok">a1b2c3d4e5f6  codealpha-webserver   0.0.0.0:8080->80/tcp   my-webserver</span>
+
+<span class="cmt"># open in the browser</span>
+<span class="cmd">$</span> <span class="url">http://localhost:8080</span> <span class="blink">▊</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TECH STACK ================= -->
+    <section class="section section--alt" id="stack" data-testid="stack-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow"><span class="section-eyebrow__num">04</span> TECHNOLOGY STACK</div>
+          <h2 class="section-title">Built with <em>precision tools</em></h2>
+          <p class="section-sub">Every layer of this project was chosen for a reason — containerization, serving, markup, styling, interaction and the host environment.</p>
+        </div>
+
+        <div class="stack-grid" data-testid="stack-cards">
+          <article class="stack-card tilt reveal" data-testid="stack-docker">
+            <div class="stack-card__glow" aria-hidden="true"></div>
+            <span class="stack-card__icon"><i data-lucide="container"></i></span>
+            <h3>Docker</h3>
+            <p>Image build & container runtime. The entire site ships as a portable image that runs identically anywhere.</p>
+            <span class="stack-card__role">CONTAINERIZATION</span>
+          </article>
+          <article class="stack-card tilt reveal" data-testid="stack-nginx">
+            <div class="stack-card__glow" aria-hidden="true"></div>
+            <span class="stack-card__icon"><i data-lucide="server"></i></span>
+            <h3>Nginx</h3>
+            <p>High-performance web server inside the container — serves static assets fast with a tiny footprint.</p>
+            <span class="stack-card__role">WEB SERVER</span>
+          </article>
+          <article class="stack-card tilt reveal" data-testid="stack-html5">
+            <div class="stack-card__glow" aria-hidden="true"></div>
+            <span class="stack-card__icon"><i data-lucide="file-code-2"></i></span>
+            <h3>HTML5</h3>
+            <p>Semantic, accessible structure — the skeleton of the NEXUS experience, served straight from the docroot.</p>
+            <span class="stack-card__role">STRUCTURE</span>
+          </article>
+          <article class="stack-card tilt reveal" data-testid="stack-css3">
+            <div class="stack-card__glow" aria-hidden="true"></div>
+            <span class="stack-card__icon"><i data-lucide="palette"></i></span>
+            <h3>CSS3</h3>
+            <p>Glassmorphism, depth, neon accents and a fully responsive layout system built on custom properties.</p>
+            <span class="stack-card__role">DESIGN SYSTEM</span>
+          </article>
+          <article class="stack-card tilt reveal" data-testid="stack-js">
+            <div class="stack-card__glow" aria-hidden="true"></div>
+            <span class="stack-card__icon"><i data-lucide="braces"></i></span>
+            <h3>JavaScript</h3>
+            <p>Three.js scenes, GSAP motion and interactive micro-details — all client-side, zero backend calls.</p>
+            <span class="stack-card__role">INTERACTION</span>
+          </article>
+          <article class="stack-card tilt reveal" data-testid="stack-linux">
+            <div class="stack-card__glow" aria-hidden="true"></div>
+            <span class="stack-card__icon"><i data-lucide="terminal"></i></span>
+            <h3>Linux / WSL2</h3>
+            <p>The development & host environment where Docker Engine runs and the container is built, launched and tested.</p>
+            <span class="stack-card__role">HOST ENVIRONMENT</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WORKFLOW ================= -->
+    <section class="section" id="workflow" data-testid="workflow-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow"><span class="section-eyebrow__num">05</span> DEPLOYMENT WORKFLOW</div>
+          <h2 class="section-title">From source to <em>localhost</em></h2>
+          <p class="section-sub">Five deliberate steps. Every one is reproducible — the whole deployment can be torn down and rebuilt from scratch in under a minute.</p>
+        </div>
+
+        <div class="workflow" data-testid="workflow-steps">
+          <div class="workflow__rail" aria-hidden="true"><span class="workflow__rail-fill" id="railFill"></span></div>
+
+          <div class="workflow-step reveal" data-testid="workflow-step-1">
+            <div class="workflow-step__num">01</div>
+            <div class="workflow-step__card">
+              <span class="icon-chip"><i data-lucide="code-2"></i></span>
+              <h3>Create HTML website</h3>
+              <p>Design and build the static site — markup, styles, scripts and 3D visuals, all self-contained.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal" data-testid="workflow-step-2">
+            <div class="workflow-step__num">02</div>
+            <div class="workflow-step__card">
+              <span class="icon-chip"><i data-lucide="file-text"></i></span>
+              <h3>Write Dockerfile</h3>
+              <p><code>FROM nginx:latest</code>, copy the site into the Nginx docroot, <code>EXPOSE 80</code>.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal" data-testid="workflow-step-3">
+            <div class="workflow-step__num">03</div>
+            <div class="workflow-step__card">
+              <span class="icon-chip"><i data-lucide="box"></i></span>
+              <h3>Build Docker Image</h3>
+              <p><code>docker build -t codealpha-webserver .</code> — layers cached, build is fast and repeatable.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal" data-testid="workflow-step-4">
+            <div class="workflow-step__num">04</div>
+            <div class="workflow-step__card">
+              <span class="icon-chip"><i data-lucide="play"></i></span>
+              <h3>Run Docker Container</h3>
+              <p><code>docker run -d -p 8080:80</code> — the container starts detached and maps ports.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal" data-testid="workflow-step-5">
+            <div class="workflow-step__num">05</div>
+            <div class="workflow-step__card">
+              <span class="icon-chip"><i data-lucide="globe-2"></i></span>
+              <h3>Access through localhost</h3>
+              <p>Open <code>http://localhost:8080</code> — the containerized Nginx server delivers the site to the browser.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="section section--alt" id="about" data-testid="about-section">
+      <div class="container about-grid">
+        <div class="about-copy reveal">
+          <div class="section-eyebrow"><span class="section-eyebrow__num">06</span> ABOUT PROJECT</div>
+          <h2 class="section-title">Why containerize <em>a web server?</em></h2>
+          <p class="about-p">The objective of NEXUS is simple and precise: take a website and the web server that delivers it, wrap both inside a Docker container, and run that container as a self-sufficient unit on localhost:8080.</p>
+          <p class="about-p">Instead of installing and configuring Nginx directly on the host machine, the Dockerfile packages the official Nginx image together with the site's static assets. The result is a deployment that is isolated from the host, reproducible on any machine with Docker, and trivially portable — the same image that runs on a laptop under WSL2 runs unchanged on any cloud server.</p>
+          <p class="about-p">This project demonstrates the core DevOps workflow — containerization, image building, port mapping and container management — applied to a real, fully hand-built web experience: the one you're looking at right now, served from inside the container.</p>
+        </div>
+        <div class="about-visual reveal" data-testid="about-visual">
+          <div class="about-visual__card glass-panel tilt">
+            <div class="about-visual__row"><span class="about-visual__k">PROJECT</span><span class="about-visual__v">NEXUS</span></div>
+            <div class="about-visual__row"><span class="about-visual__k">TRACK</span><span class="about-visual__v">DevOps Internship</span></div>
+            <div class="about-visual__row"><span class="about-visual__k">FOCUS</span><span class="about-visual__v">Docker containerization</span></div>
+            <div class="about-visual__divider"></div>
+            <div class="about-visual__code">
+              <span class="cmt"># the entire deployment</span><br>
+              <span class="cmd">$</span> docker build -t codealpha-webserver .<br>
+              <span class="cmd">$</span> docker run -d -p 8080:80 codealpha-webserver
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer" data-testid="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#hero" class="nav__brand" aria-label="NEXUS home">
+          <svg viewBox="0 0 48 48" width="24" height="24" fill="none" aria-hidden="true">
+            <path d="M24 3 42 13.5v21L24 45 6 34.5v-21L24 3Z" stroke="url(#ftGrad)" stroke-width="2"/>
+            <path d="M16 31V17l16 14V17" stroke="url(#ftGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="ftGrad" x1="6" y1="6" x2="42" y2="42"><stop stop-color="#00E5FF"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs>
+          </svg>
+          <span>DOKER NOVA</span>
+        </a>
+        <p class="footer__tag">Containerized infrastructure, delivered beautifully.</p>
+      </div>
+
+      <div class="footer__credits">
+        <p>Designed & Developed <strong>Gauri Somwanshi❤️</strong></p>
+        
+      </div>
+
+      <a class="btn btn--ghost btn--sm footer__gh" href="#" data-magnetic data-testid="footer-github" aria-label="GitHub repository (coming soon)">
+        <i data-lucide="github"></i> GitHub Repository
+      </a>
+    </div>
+    <div class="footer__baseline">
+      <div class="container footer__baseline-inner">
+        <span>DOCKER NOVA · DOCKER INFRASTRUCTURE</span>
+        <span>NGINX · LOCALHOST:8080</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="js/scene.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
